@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_tpo",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "path": "default_view",
+          "title": "Home",
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "person.tpo_ekipa"
+              ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "input_boolean.alarm_toggle",
+                "input_select.home_mode",
+                "input_boolean.sensor_toggle",
+                "input_boolean.camera_toggle",
+                "input_boolean.door_toggle",
+                "input_boolean.motion_error",
+                "input_boolean.sound_toggle"
+              ],
+              "title": "Helpers"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "home_sec.sensor_toggle_state"
+                }
+              ],
+              "title": "home_sec"
+            },
+            {
+              "type": "iframe",
+              "url": "http://localhost:8123/local/tpo_home_security/SecurityCam.mp4",
+              "aspect_ratio": "50%"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.cloud: debug
+# configuration.yaml
+
+# A simple on/off toggle
+input_boolean:
+  sensor_toggle:
+    name: “Sensor Motion”
+    icon: mdi:radiobox-marked
+
+  sound_toggle:
+    name: "Sensor sound"
+    icon: mdi:speaker
+
+  camera_toggle:
+    name: "Camera toggle"
+    icon: mdi:camera
+
+  door_toggle:
+    name: "Door Sensor"
+    icon: mdi:door-open
+
+  alarm_toggle:
+    name: “Alarm Toggle”
+    icon: mdi:alarm-light
+
+  motion_error:
+    name: "Motion Sensor Error"
+    icon: mdi:alert-circle
+
+# A dropdown with exactly three options
+input_select:
+  home_mode:
+    name: “Home Mode”
+    options:
+      - HOME
+      - AWAY
+      - VACATION
+      - SLEEPING
+    icon: mdi:home-export-outline
+
+# type: video
+# entity: entity.home_sec.security_cam_video
+
+# Integration
+
+#tpo_home_security:
+
+notify:
+  - platform: smtp
+    name: email_alerts
+    server: smtp.gmail.com
+    port: 587
+    sender: alobabunarija@gmail.com
+    encryption: starttls
+    username: alobabunarija@gmail.com
+    password: gwvw bxye szpe hnhs
+    recipient:
+      - ibeleluca@gmail.com
+
+
+light:
+  - platform: template
+    lights:
+      your_lights:
+        friendly_name: "Vacation Blink Lights"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.some_light
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.some_light

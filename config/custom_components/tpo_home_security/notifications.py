@@ -7,9 +7,7 @@ class NotificationChannel(ABC):
     """Interface for all notification channels."""
 
     @abstractmethod
-    def send(
-        self, title: str, message: str, targets: list[str] | None = None
-    ) -> None:
+    def send(self, title: str, message: str, targets: list[str] | None = None) -> None:
         """Send a notification.
 
         :param title: The notification title (or email subject).
@@ -57,9 +55,7 @@ class PushNotifier(NotificationChannel):
         self.hass = hass
         self.service_name = service_name
 
-    def send(
-        self, title: str, message: str, targets: list[str] | None = None
-    ) -> None:
+    def send(self, title: str, message: str, targets: list[str] | None = None) -> None:
         """Send a push notification via HA mobile_app notify service for SM-S928B.
 
         :param title: Notification title
@@ -84,9 +80,7 @@ class PushNotifier(NotificationChannel):
         self.hass = hass
         self.service_name = service_name
 
-    def send(
-        self, title: str, message: str, targets: list[str] | None = None
-    ) -> None:
+    def send(self, title: str, message: str, targets: list[str] | None = None) -> None:
         """Send a push notification via HA mobile_app notify service for SM-S928B.
 
         :param title: Notification title

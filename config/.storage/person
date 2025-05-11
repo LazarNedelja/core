@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "minor_version": 1,
+  "key": "person",
+  "data": {
+    "items": [
+      {
+        "id": "tpo_ekipa",
+        "name": "Tpo_ekipa",
+        "user_id": "c6e6fea483c5480ea611973de933bce0",
+        "device_trackers": [
+          "device_tracker.sm_s928b"
+        ]
+      }
+    ]
+  }
+}

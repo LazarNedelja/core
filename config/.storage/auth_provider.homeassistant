@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "auth_provider.homeassistant",
+  "data": {
+    "users": [
+      {
+        "username": "tpo_ekipa",
+        "password": "JDJiJDEyJDJJdnZaYXdUS1p2UEdiZWFVbi5nM09hOW1ac2Q0OXVGcm1JZ0dyM2duMU9TQzF2akNXSW1h"
+      }
+    ]
+  }
+}
