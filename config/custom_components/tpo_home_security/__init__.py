@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -12,7 +14,6 @@ from .listener import register_listeners
 from .notifications import EmailNotifier, PushNotifier
 
 _PLATFORMS: list[Platform] = [Platform.LIGHT]
-
 
 
 async def async_setup_entry(hass, entry) -> bool:  # noqa: D103
@@ -33,6 +34,12 @@ async def async_setup_entry(hass, entry) -> bool:  # noqa: D103
 
     # Register your event listener (from listener.py)
     register_listeners(hass)
+
+    hass.http.register_static_path(
+        f"/local/{DOMAIN}",
+        os.path.dirname(__file__),
+        False,  # don’t require auth
+    )
 
     return True
 

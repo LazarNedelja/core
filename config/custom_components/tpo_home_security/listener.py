@@ -1,14 +1,16 @@
 """Event listeners for the tpo_home_security integration, refactored using the Observer pattern and a Facade structural pattern."""
 
+from abc import ABC, abstractmethod
 import logging
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any
 
 import cv2
 import torch
 
 from homeassistant.core import Event, HomeAssistant, callback
-from .notifications import EmailNotifier
+from homeassistant.helpers.event import async_call_later
+
 from .const import DOMAIN
 
 # Force full weights load so ultralytics can load YOLOv5
@@ -27,7 +29,7 @@ from ultralytics import YOLO  # noqa: E402
 _LOGGER = logging.getLogger(__name__)
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-VIDEO_FILE = Path(__file__).parent / "GoldenDoodleCam.mp4"
+VIDEO_FILE = Path(__file__).parent / "SecurityCam.mp4"
 MODEL_FILE = Path(__file__).parent / "yolov8n.pt"
 PERSON_CLASS = 0
 ANIMAL_CLASS_IDS = [
@@ -81,7 +83,7 @@ class YoloModelSingleton:
             _LOGGER.error("YOLO error: %s", e)
             return False
 
-    def detect_animals(self, image_path: str) -> List[str]:
+    def detect_animals(self, image_path: str) -> list[str]:
         """Return list of animal class names detected in the image."""
         if not self.model:
             return []
@@ -95,8 +97,21 @@ class YoloModelSingleton:
 
 
 # ── Observer Pattern ───────────────────────────────────────────────────────────
+class Observer(ABC):
+    """Interface for all sensor observers."""
+
+    @abstractmethod
+    def update(self, state: str) -> None:
+        """Handle an update from the Sensor.
+
+        :param state: "DETECTED" or "CLEAR"
+        """
+
+
 class Sensor:
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the Sensor with an empty list of subscribers."""
+
         self.subscribers = []
 
     def register(self, subscriber):
@@ -107,22 +122,69 @@ class Sensor:
             sub.update(state)
 
 
-class Alarm:
-    def __init__(self, hass: HomeAssistant):
+class Alarm(Observer):
+    """Observer that handles alarm state changes."""
+
+    def __init__(self, hass: HomeAssistant) -> None:
+        """Initialize the Alarm observer with the Home Assistant instance."""
+
         self.hass = hass
 
-    def update(self, state):
-        svc = "turn_on" if state == "DETECTED" else "turn_off"
+    def update(self, state: str) -> None:
+        """Handle an update from the Sensor.
+
+        :param state: "DETECTED" or "CLEAR"
+        """
+        # svc = "turn_on" if state == "DETECTED" else "turn_off"
+        # self.hass.services.call(
+        #     "input_boolean",
+        #     svc,
+        #     {"entity_id": "input_boolean.alarm_toggle"},
+        # )
+        # _LOGGER.info("Alarm turned %s", "ON" if state == "DETECTED" else "OFF")
+
+        if state == "DETECTED":
+            # Turn it on immediately
+            self.hass.services.call(
+                "input_boolean",
+                "turn_on",
+                {"entity_id": "input_boolean.alarm_toggle"},
+            )
+            _LOGGER.info("Alarm turned ON")
+
+            # Schedule the delayed turn-off back on the main loop thread
+            # so async_call_later is invoked from the event loop.
+            self.hass.loop.call_soon_threadsafe(
+                lambda: async_call_later(self.hass, 10, self._auto_turn_off)
+            )
+        else:
+            # Immediate turn-off if CLEAR
+            self.hass.services.call(
+                "input_boolean",
+                "turn_off",
+                {"entity_id": "input_boolean.alarm_toggle"},
+            )
+            _LOGGER.info("Alarm turned OFF")
+
+    def _auto_turn_off(self, now) -> None:
+        """Pass callback to async_call_later to switch the alarm off."""
+
         self.hass.services.call(
             "input_boolean",
-            svc,
+            "turn_off",
             {"entity_id": "input_boolean.alarm_toggle"},
         )
-        _LOGGER.info("Alarm turned %s", "ON" if state == "DETECTED" else "OFF")
+        _LOGGER.info("Alarm automatically turned OFF after timeout")
 
 
-class Notifier:
-    def update(self, state):
+class Notifier(Observer):
+    """Observer that handles notifications."""
+
+    def update(self, state: str) -> None:
+        """Handle an update from the Sensor.
+
+        :param state: "DETECTED" or "CLEAR"
+        """
         if state == "DETECTED":
             _LOGGER.info("Notifier: Person detected alert triggered")
 
@@ -150,10 +212,29 @@ class SecurityFacade:
 # Global facade instance (to be created in register_listeners)
 security_facade: SecurityFacade | None = None
 
+# VIDEO_ENTITY = "home_sec.security_cam_video"
+
 
 @callback
 def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
+    email_notifier = hass.data[DOMAIN]["email_notifier"]
+    push_notifier = hass.data[DOMAIN]["push_notifier"]
+    recipients = hass.data[DOMAIN]["email_recipients"]
+
     entity_id = event.data.get("entity_id")
+
+    sensor_state = hass.states.get("input_boolean.motion_error")
+    # if sensor_state:
+    #     email_notifier.send(
+    #         subject="Sensor Failure!",
+    #         message="The motion sensor is not responding / working properly.",
+    #         targets=recipients,
+    #     )
+    #     push_notifier.send(
+    #         title="Sensor Failure!",
+    #         message="The motion sensor is not responding / working properly.",
+    #     )
+
     if entity_id not in ("input_boolean.sensor_toggle", "input_select.home_mode"):
         return
 
@@ -181,6 +262,18 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
         )
         return
 
+    # hass.states.set(
+    #     VIDEO_ENTITY,
+    #     "playing",
+    #     {
+    #         "friendly_name": "Security Cam Loop",
+    #         # expose the file directly so the Video card can pick it up
+    #         "video_path": str(VIDEO_FILE),
+    #         "content_type": "video/mp4",
+    #         "loop": True,
+    #     },
+    # )
+
     cap = cv2.VideoCapture(str(VIDEO_FILE))
     success, frame = cap.read()
     cap.release()
@@ -191,9 +284,6 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
     tmp = VIDEO_FILE.parent / "_snapshot.jpg"
     cv2.imwrite(str(tmp), frame)
 
-    email_notifier = hass.data[DOMAIN]["email_notifier"]
-    push_notifier = hass.data[DOMAIN]["push_notifier"]
-    recipients = hass.data[DOMAIN]["email_recipients"]
     # Delegate detection & notification to the Facade
     if security_facade:
         detected = security_facade.process_frame(str(tmp))
@@ -232,7 +322,7 @@ def register_listeners(hass: HomeAssistant) -> None:
     # initialize UI toggle state
     initial = hass.states.get("input_boolean.sensor_toggle")
     init_state = initial.state if initial else "unknown"
-    hass.states.set(
+    hass.states.async_set(
         "home_sec.sensor_toggle_state",
         init_state,
         {
@@ -240,3 +330,13 @@ def register_listeners(hass: HomeAssistant) -> None:
             "original_entity": "input_boolean.sensor_toggle",
         },
     )
+    # hass.states.async_set(
+    #     VIDEO_ENTITY,
+    #     "playing",
+    #     {
+    #         "friendly_name": "Security Cam Loop (off)",
+    #         "video_path": str(VIDEO_FILE),
+    #         "content_type": "video/mp4",
+    #         "loop": True,
+    #     },
+    # )
