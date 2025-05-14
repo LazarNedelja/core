@@ -309,6 +309,98 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
             )
 
 
+import asyncio
+
+PHONE_ENTITY_ID = (
+    "device_tracker.sm_s928b"  # Change this to your actual device_tracker entity ID
+)
+
+
+async def phone_presence_check(hass: HomeAssistant):
+    previous_state = None
+    while True:
+        state = hass.states.get(PHONE_ENTITY_ID)
+        if state is None:
+            print(f"{PHONE_ENTITY_ID} entity not found")
+        else:
+            current_state = state.state
+            if current_state == "home":
+                print(f"{PHONE_ENTITY_ID} is connected to local network (HOME)")
+                # Do nothing when user is home
+            elif current_state == "not_home":
+                print(f"{PHONE_ENTITY_ID} is NOT connected (state: {current_state})")
+                # If previous state was "home" and now "not_home", set home_mode to AWAY
+                if previous_state == "home":
+                    _LOGGER.info(f"User left home, setting home_mode to AWAY")
+                    # Call the service asynchronously on the event loop
+                    hass.async_create_task(
+                        hass.services.async_call(
+                            "input_select",
+                            "select_option",
+                            {
+                                "entity_id": "input_select.home_mode",
+                                "option": "AWAY",
+                            },
+                        )
+                    )
+            else:
+                print(f"{PHONE_ENTITY_ID} is in state: {current_state}")
+
+            previous_state = current_state
+        await asyncio.sleep(5)
+
+
+async def vacation_blink_lights(hass: HomeAssistant):
+    BLINK_ENTITY = "input_boolean.blinking_lights"
+    MODE_ENTITY = "input_select.home_mode"
+
+    while True:
+        mode_state = hass.states.get(MODE_ENTITY)
+        if mode_state and mode_state.state == "VACATION":
+            _LOGGER.info("Vacation mode active: starting blinking cycle")
+
+            cycle_duration = 30
+            blink_interval = 2
+            elapsed = 0
+
+            while elapsed < cycle_duration:
+                # Toggle ON
+                await hass.services.async_call(
+                    "input_boolean",
+                    "turn_on",
+                    {"entity_id": BLINK_ENTITY},
+                    blocking=True,
+                )
+                await asyncio.sleep(blink_interval)
+                elapsed += blink_interval
+
+                # Toggle OFF
+                await hass.services.async_call(
+                    "input_boolean",
+                    "turn_off",
+                    {"entity_id": BLINK_ENTITY},
+                    blocking=True,
+                )
+                await asyncio.sleep(blink_interval)
+                elapsed += blink_interval
+
+            _LOGGER.info("Vacation blinking cycle complete, starting new cycle")
+            # Continue immediately for the next cycle
+
+        else:
+            # Not vacation mode: ensure blinking lights are OFF
+            current = hass.states.get(BLINK_ENTITY)
+            if current and current.state == "on":
+                await hass.services.async_call(
+                    "input_boolean",
+                    "turn_off",
+                    {"entity_id": BLINK_ENTITY},
+                    blocking=True,
+                )
+                _LOGGER.info("Vacation mode off: turned blinking lights OFF")
+            await asyncio.sleep(5)  # check less frequently when not vacation
+
+
 def register_listeners(hass: HomeAssistant) -> None:
     global security_facade
     # create and configure the SecurityFacade
@@ -318,6 +410,10 @@ def register_listeners(hass: HomeAssistant) -> None:
     hass.bus.async_listen(
         "state_changed", lambda event: handle_sensor_toggle_update(hass, event)
     )
+
+    hass.loop.create_task(phone_presence_check(hass))
+
+    hass.loop.create_task(vacation_blink_lights(hass))
 
     # initialize UI toggle state
     initial = hass.states.get("input_boolean.sensor_toggle")

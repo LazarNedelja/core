@@ -4,83 +4,101 @@
   "key": "core.restore_state",
   "data": [
     {
-      "state": {"entity_id":"conversation.home_assistant","state":"unknown","attributes":{"friendly_name":"Home Assistant","supported_features":1},"last_changed":"2025-05-11T21:22:35.371414+00:00","last_reported":"2025-05-11T21:22:35.371414+00:00","last_updated":"2025-05-11T21:22:35.371414+00:00","context":{"id":"01JV0KMWQBC8A6WQ3S9N5R35TB","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"conversation.home_assistant","state":"unknown","attributes":{"friendly_name":"Home Assistant","supported_features":1},"last_changed":"2025-05-14T22:49:08.409468+00:00","last_reported":"2025-05-14T22:49:08.409468+00:00","last_updated":"2025-05-14T22:49:08.409468+00:00","context":{"id":"01JV8FSH1SBV0T0F8B63AJ86F5","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"person.tpo_ekipa","state":"not_home","attributes":{"editable":true,"id":"tpo_ekipa","device_trackers":["device_tracker.sm_s928b"],"latitude":44.0157678,"longitude":20.9143721,"gps_accuracy":100,"source":"device_tracker.sm_s928b","user_id":"c6e6fea483c5480ea611973de933bce0","friendly_name":"Tpo_ekipa"},"last_changed":"2025-05-11T21:22:36.532183+00:00","last_reported":"2025-05-11T21:22:43.370542+00:00","last_updated":"2025-05-11T21:22:43.370542+00:00","context":{"id":"01JV0KN4HA2XJFDQBTTFK6M0G8","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"person.tpo_ekipa","state":"home","attributes":{"editable":true,"id":"tpo_ekipa","device_trackers":["device_tracker.sm_s928b"],"latitude":46.0976897,"longitude":14.5243153,"gps_accuracy":81,"source":"device_tracker.sm_s928b","user_id":"c6e6fea483c5480ea611973de933bce0","friendly_name":"Tpo_ekipa"},"last_changed":"2025-05-14T22:49:09.791925+00:00","last_reported":"2025-05-14T22:49:22.373701+00:00","last_updated":"2025-05-14T22:49:22.373701+00:00","context":{"id":"01JV8FSYP55PQ60C5DDF07YE3P","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.sensor_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:radiobox-marked","friendly_name":"“Sensor Motion”"},"last_changed":"2025-05-11T21:23:17.478764+00:00","last_reported":"2025-05-11T21:23:17.478764+00:00","last_updated":"2025-05-11T21:23:17.478764+00:00","context":{"id":"01JV0KP5TZNPY274VVCQGK5PTD","parent_id":null,"user_id":"c6e6fea483c5480ea611973de933bce0"}},
+      "state": {"entity_id":"input_boolean.sensor_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:radiobox-marked","friendly_name":"“Sensor Motion”"},"last_changed":"2025-05-14T22:49:09.797066+00:00","last_reported":"2025-05-14T22:49:09.797066+00:00","last_updated":"2025-05-14T22:49:09.797066+00:00","context":{"id":"01JV8FSJD55870D7143TNXW9Q1","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.sound_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:speaker","friendly_name":"Sensor sound"},"last_changed":"2025-05-11T21:22:36.546975+00:00","last_reported":"2025-05-11T21:22:36.546975+00:00","last_updated":"2025-05-11T21:22:36.546975+00:00","context":{"id":"01JV0KMXW2VX4TK07QPXM2SY1Y","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.sound_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:speaker","friendly_name":"Sensor sound"},"last_changed":"2025-05-14T22:49:09.797848+00:00","last_reported":"2025-05-14T22:49:09.797848+00:00","last_updated":"2025-05-14T22:49:09.797848+00:00","context":{"id":"01JV8FSJD5MRXBSXGY1RM17MD9","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.camera_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:camera","friendly_name":"Camera toggle"},"last_changed":"2025-05-11T21:22:36.547157+00:00","last_reported":"2025-05-11T21:22:36.547157+00:00","last_updated":"2025-05-11T21:22:36.547157+00:00","context":{"id":"01JV0KMXW3MTQFS9VRHW97JP7D","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.camera_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:camera","friendly_name":"Camera toggle"},"last_changed":"2025-05-14T22:49:09.798335+00:00","last_reported":"2025-05-14T22:49:09.798335+00:00","last_updated":"2025-05-14T22:49:09.798335+00:00","context":{"id":"01JV8FSJD6W40NJ593VZ2K2S23","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.door_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:door-open","friendly_name":"Door Sensor"},"last_changed":"2025-05-11T21:22:36.547322+00:00","last_reported":"2025-05-11T21:22:36.547322+00:00","last_updated":"2025-05-11T21:22:36.547322+00:00","context":{"id":"01JV0KMXW3TXA2595DRBCBAWAK","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.door_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:door-open","friendly_name":"Door Sensor"},"last_changed":"2025-05-14T22:49:09.798645+00:00","last_reported":"2025-05-14T22:49:09.798645+00:00","last_updated":"2025-05-14T22:49:09.798645+00:00","context":{"id":"01JV8FSJD6JEJAEYZM2TPKTYQF","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.alarm_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:alarm-light","friendly_name":"“Alarm Toggle”"},"last_changed":"2025-05-11T21:23:13.077030+00:00","last_reported":"2025-05-11T21:23:13.077030+00:00","last_updated":"2025-05-11T21:23:13.077030+00:00","context":{"id":"01JV0KP1HJ0ADVS7MS83KX6Q5D","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.alarm_toggle","state":"off","attributes":{"editable":false,"icon":"mdi:alarm-light","friendly_name":"“Alarm Toggle”"},"last_changed":"2025-05-14T22:49:09.798844+00:00","last_reported":"2025-05-14T22:49:09.798844+00:00","last_updated":"2025-05-14T22:49:09.798844+00:00","context":{"id":"01JV8FSJD6WFZRZDCR9NQYV76Y","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_boolean.motion_error","state":"off","attributes":{"editable":false,"icon":"mdi:alert-circle","friendly_name":"Motion Sensor Error"},"last_changed":"2025-05-11T21:22:36.547706+00:00","last_reported":"2025-05-11T21:22:36.547706+00:00","last_updated":"2025-05-11T21:22:36.547706+00:00","context":{"id":"01JV0KMXW3ASBDGPZ4WG796B3R","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.motion_error","state":"off","attributes":{"editable":false,"icon":"mdi:alert-circle","friendly_name":"Motion Sensor Error"},"last_changed":"2025-05-14T22:49:09.799086+00:00","last_reported":"2025-05-14T22:49:09.799086+00:00","last_updated":"2025-05-14T22:49:09.799086+00:00","context":{"id":"01JV8FSJD72H48SR8SGBTHFRS3","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"input_select.home_mode","state":"AWAY","attributes":{"options":["HOME","AWAY","VACATION","SLEEPING"],"editable":false,"icon":"mdi:home-export-outline","friendly_name":"“Home Mode”"},"last_changed":"2025-05-11T21:22:36.550627+00:00","last_reported":"2025-05-11T21:22:36.550627+00:00","last_updated":"2025-05-11T21:22:36.550627+00:00","context":{"id":"01JV0KMXW6FCE229MAG6TZ2MM1","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_boolean.blinking_lights","state":"on","attributes":{"editable":false,"icon":"mdi:alarm-light","friendly_name":"Blinking Lights"},"last_changed":"2025-05-14T22:50:14.620448+00:00","last_reported":"2025-05-14T22:50:14.620448+00:00","last_updated":"2025-05-14T22:50:14.620448+00:00","context":{"id":"01JV8FVHPVRBH7KDSCJD01SVTK","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"device_tracker.sm_s928b","state":"not_home","attributes":{"source_type":"gps","latitude":44.0157678,"longitude":20.9143721,"gps_accuracy":100,"altitude":231.0,"course":0,"speed":0,"vertical_accuracy":100,"friendly_name":"SM-S928B"},"last_changed":"2025-05-11T21:22:43.057946+00:00","last_reported":"2025-05-11T21:22:43.057946+00:00","last_updated":"2025-05-11T21:22:43.057946+00:00","context":{"id":"01JV0KN47HB0ZGYB8WX4ESKX7R","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"input_select.home_mode","state":"VACATION","attributes":{"options":["HOME","AWAY","VACATION","SLEEPING"],"editable":false,"icon":"mdi:home-export-outline","friendly_name":"“Home Mode”"},"last_changed":"2025-05-14T22:49:09.813422+00:00","last_reported":"2025-05-14T22:49:09.813422+00:00","last_updated":"2025-05-14T22:49:09.813422+00:00","context":{"id":"01JV8FSJDN0KYK6X9125K2F98M","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"sensor.sm_s928b_battery_level","state":"51","attributes":{"state_class":"measurement","unit_of_measurement":"%","device_class":"battery","icon":"mdi:battery-50","friendly_name":"SM-S928B Battery level"},"last_changed":"2025-05-11T21:22:43.065424+00:00","last_reported":"2025-05-11T21:22:43.065424+00:00","last_updated":"2025-05-11T21:22:43.065424+00:00","context":{"id":"01JV0KN47SJM66DYEDR3C95J0R","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"binary_sensor.sm_s928b_wi_fi_state","state":"off","attributes":{"icon":"mdi:wifi","friendly_name":"SM-S928B Wi-Fi state"},"last_changed":"2025-05-14T22:49:17.999519+00:00","last_reported":"2025-05-14T22:49:17.999519+00:00","last_updated":"2025-05-14T22:49:17.999519+00:00","context":{"id":"01JV8FSTDF63RQMRDJDYS2HYRB","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
+    },
+    {
+      "state": {"entity_id":"device_tracker.sm_s928b","state":"home","attributes":{"source_type":"gps","latitude":46.0976897,"longitude":14.5243153,"gps_accuracy":81,"altitude":345.0,"course":0,"speed":0,"vertical_accuracy":17,"friendly_name":"SM-S928B"},"last_changed":"2025-05-14T22:49:22.370581+00:00","last_reported":"2025-05-14T22:49:22.370581+00:00","last_updated":"2025-05-14T22:49:22.370581+00:00","context":{"id":"01JV8FSYP2CVHBNK0G4AR7PC2N","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
+    },
+    {
+      "state": {"entity_id":"sensor.sm_s928b_battery_level","state":"10","attributes":{"state_class":"measurement","unit_of_measurement":"%","device_class":"battery","icon":"mdi:battery-charging-wireless-10","friendly_name":"SM-S928B Battery level"},"last_changed":"2025-05-14T22:49:18.020832+00:00","last_reported":"2025-05-14T22:49:18.020832+00:00","last_updated":"2025-05-14T22:49:18.020832+00:00","context":{"id":"01JV8FSTE4Z07SFBMA7S02PRKJ","parent_id":null,"user_id":null}},
       "extra_data": {
-        "native_value": 51,
+        "native_value": 10,
         "native_unit_of_measurement": "%"
       },
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"sensor.sm_s928b_battery_state","state":"discharging","attributes":{"options":["charging","discharging","full","not_charging"],"device_class":"enum","icon":"mdi:battery-minus","friendly_name":"SM-S928B Battery state"},"last_changed":"2025-05-11T21:22:43.067877+00:00","last_reported":"2025-05-11T21:22:43.067877+00:00","last_updated":"2025-05-11T21:22:43.067877+00:00","context":{"id":"01JV0KN47VWKMTRKXX29DEBWZZ","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"sensor.sm_s928b_battery_state","state":"charging","attributes":{"options":["charging","discharging","full","not_charging"],"device_class":"enum","icon":"mdi:battery-plus","friendly_name":"SM-S928B Battery state"},"last_changed":"2025-05-14T22:49:18.023759+00:00","last_reported":"2025-05-14T22:49:18.023759+00:00","last_updated":"2025-05-14T22:49:18.023759+00:00","context":{"id":"01JV8FSTE70F3PB757QY7GKBRA","parent_id":null,"user_id":null}},
       "extra_data": {
-        "native_value": "discharging",
+        "native_value": "charging",
         "native_unit_of_measurement": null
       },
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"sensor.sm_s928b_charger_type","state":"none","attributes":{"options":["ac","usb","wireless","dock","none"],"device_class":"enum","icon":"mdi:battery","friendly_name":"SM-S928B Charger type"},"last_changed":"2025-05-11T21:22:43.070589+00:00","last_reported":"2025-05-11T21:22:43.070589+00:00","last_updated":"2025-05-11T21:22:43.070589+00:00","context":{"id":"01JV0KN47YSERQG6MCR2RCNP67","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"sensor.sm_s928b_charger_type","state":"wireless","attributes":{"options":["ac","usb","wireless","dock","none"],"device_class":"enum","icon":"mdi:battery-charging-wireless","friendly_name":"SM-S928B Charger type"},"last_changed":"2025-05-14T22:49:18.025474+00:00","last_reported":"2025-05-14T22:49:18.025474+00:00","last_updated":"2025-05-14T22:49:18.025474+00:00","context":{"id":"01JV8FSTE9G647ENAP4K55145X","parent_id":null,"user_id":null}},
       "extra_data": {
-        "native_value": "none",
+        "native_value": "wireless",
         "native_unit_of_measurement": null
       },
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     },
     {
-      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-05-11T21:22:43.096992+00:00","last_reported":"2025-05-11T21:22:43.096992+00:00","last_updated":"2025-05-11T21:22:43.096992+00:00","context":{"id":"01JV0KN48R1C4VDY0TWDNNXVJF","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"sensor.sm_s928b_wi_fi_connection","state":"Connected","attributes":{"is_hidden":false,"icon":"mdi:wifi","friendly_name":"SM-S928B Wi-Fi connection"},"last_changed":"2025-05-14T22:49:18.026914+00:00","last_reported":"2025-05-14T22:49:18.026914+00:00","last_updated":"2025-05-14T22:49:18.026914+00:00","context":{"id":"01JV8FSTEADKGVV991044WCBJ3","parent_id":null,"user_id":null}},
+      "extra_data": {
+        "native_value": "Connected",
+        "native_unit_of_measurement": null
+      },
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
+    },
+    {
+      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-05-14T22:49:18.044602+00:00","last_reported":"2025-05-14T22:49:18.044602+00:00","last_updated":"2025-05-14T22:49:18.044602+00:00","context":{"id":"01JV8FSTEW5MKS4P4BG26D4KDJ","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-11T21:29:57.725887+00:00"
+      "last_seen": "2025-05-14T22:50:14.692263+00:00"
     }
   ]
 }

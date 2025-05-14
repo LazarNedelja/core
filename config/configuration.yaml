@@ -42,6 +42,10 @@ input_boolean:
     name: "Motion Sensor Error"
     icon: mdi:alert-circle
 
+  blinking_lights:
+    name: Blinking Lights
+    icon: mdi:alarm-light
+
 # A dropdown with exactly three options
 input_select:
   home_mode:
@@ -71,18 +75,3 @@ notify:
     password: gwvw bxye szpe hnhs
     recipient:
       - ibeleluca@gmail.com
-
-
-light:
-  - platform: template
-    lights:
-      your_lights:
-        friendly_name: "Vacation Blink Lights"
-        turn_on:
-          service: switch.turn_on
-          data:
-            entity_id: switch.some_light
-        turn_off:
-          service: switch.turn_off
-          data:
-            entity_id: switch.some_light
