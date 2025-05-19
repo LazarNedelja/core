@@ -1,17 +1,22 @@
 """Event listeners for the tpo_home_security integration, refactored using the Observer pattern and a Facade structural pattern."""
 
 from abc import ABC, abstractmethod
+import itertools
 import logging
 from pathlib import Path
 from typing import Any
 
 import cv2
+import librosa
+import numpy as np
 import torch
 
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers.event import async_call_later
 
 from .const import DOMAIN
+
+np.complex = complex
 
 # Force full weights load so ultralytics can load YOLOv5
 _orig_torch_load = torch.load
@@ -401,6 +406,80 @@ async def vacation_blink_lights(hass: HomeAssistant):
             await asyncio.sleep(5)  # check less frequently when not vacation
 
 
+def detect(file_path):
+    """
+    Analyze an audio file for glass break sounds
+    Returns True if glass break detected, False otherwise
+    """
+    try:
+        # Load audio file
+        y, sr = librosa.load(file_path, sr=None)
+
+        # Convert to mono if stereo
+        if len(y.shape) > 1:
+            y = np.mean(y, axis=1)
+
+        # Calculate short-time Fourier transform
+        n_fft = min(2048, len(y))
+        hop_length = n_fft // 4
+
+        # Get spectrogram
+        stft = librosa.stft(y, n_fft=n_fft, hop_length=hop_length)
+        spectrogram = np.abs(stft)
+
+        # Calculate RMS energy over time
+        rms_energy = librosa.feature.rms(S=spectrogram)[0]
+        max_energy = np.max(rms_energy)
+
+        # Energy spike detection (transients)
+        energy_diff = np.diff(rms_energy)
+        energy_diff = np.append(energy_diff, 0)
+        transient_score = np.max(energy_diff)
+
+        # Extract high frequency energy (typically above 4kHz for glass breaks)
+        freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
+        high_freq_mask = freqs >= 4000
+        high_freq_energy = np.sum(spectrogram[high_freq_mask, :], axis=0)
+        high_freq_score = np.max(high_freq_energy)
+
+        # Decision logic
+        energy_condition = max_energy > 0.17889
+        transient_condition = transient_score > 3181.55908
+        high_freq_condition = high_freq_score > 0.09099
+
+        # Combined decision
+        is_glass_break = energy_condition and (
+            transient_condition or high_freq_condition
+        )
+
+        return is_glass_break
+
+    except Exception as e:
+        print(f"Error processing audio file: {e}")
+        return False
+
+
+def handle_sound_detection(hass: HomeAssistant, event: Event) -> None:
+    """Handle sound detection event."""
+
+    entity_id = event.data.get("entity_id")
+
+    if entity_id != "input_boolean.sound_toggle":
+        return
+    sensor_state = hass.states.get("input_boolean.sound_toggle")
+
+    if sensor_state.state != "on":
+        return
+
+    _LOGGER.info("Sound detected event")
+
+    audio_file = Path(__file__).parent / "./noglass/door.wav"
+    if detect(audio_file):
+        _LOGGER.info("Glass break detected!")
+    else:
+        _LOGGER.info("No glass break detected.")
+
+
 def register_listeners(hass: HomeAssistant) -> None:
     global security_facade
     # create and configure the SecurityFacade
@@ -409,6 +488,10 @@ def register_listeners(hass: HomeAssistant) -> None:
     # register Home Assistant event listener
     hass.bus.async_listen(
         "state_changed", lambda event: handle_sensor_toggle_update(hass, event)
+    )
+
+    hass.bus.async_listen(
+        "state_changed", lambda event: handle_sound_detection(hass, event)
     )
 
     hass.loop.create_task(phone_presence_check(hass))

@@ -1,0 +1,123 @@
+PS C:\Users\dusan\OneDrive - Univerza v Ljubljani\Desktop\glass_break> python glass_break_detector.py --file glass/glass_break.wav --visualize       
+Analyzing: glass/glass_break.wav
+
+Results for glass/glass_break.wav:
+Is glass break: YES
+Confidence metrics:
+  energy_max: 0.18593
+  transient_score: 0.11374
+  high_freq_ratio: 0.07800
+  high_freq_score: 3976.94873
+  flatness_score: 0.57545
+  zcr_score: 0.14838
+PS C:\Users\dusan\OneDrive - Univerza v Ljubljani\Desktop\glass_break> python glass_break_detector.py --file noglass/door.wav --visualize
+Analyzing: noglass/door.wav
+
+Results for noglass/door.wav:
+Is glass break: NO
+Confidence metrics:
+  energy_max: 0.14907
+  transient_score: 0.04956
+  high_freq_ratio: 0.04962
+  high_freq_score: 472.15231
+  flatness_score: 0.03207
+  zcr_score: 0.02220
+
+
+
+Glass Break Detector - Installation and Usage Guide
+Installation Requirements
+Install the required libraries with pip:
+bashpip install numpy matplotlib scipy librosa
+Basic Usage
+Analyzing a Single Audio File
+bashpython glass_break_detector.py --file path/to/audio.wav --visualize
+Analyzing Multiple Audio Files in a Directory
+bashpython glass_break_detector.py --dir path/to/audio/directory
+Adjusting Detection Thresholds (Absolute Values)
+bashpython glass_break_detector.py --file path/to/audio.wav --energy 0.05 --transient 0.01 --highfreq 0.1
+Calibrating with Example Files
+bashpython glass_break_detector.py --calibrate --glass-dir path/to/glass/samples --non-glass-dir path/to/non-glass/samples
+Debug Mode for Detailed Output
+bashpython glass_break_detector.py --file path/to/audio.wav --debug
+How It Works
+The detector analyzes audio files for characteristics typical of glass break sounds:
+
+Energy Spikes: Glass breaks produce sudden, sharp increases in audio energy
+High Frequency Content: Glass breaks contain significant high-frequency components (>4kHz)
+Transients: Glass breaks have sharp, rapid changes in amplitude
+
+Understanding Thresholds (Absolute Values)
+The detector now uses absolute thresholds instead of normalized values:
+
+energy: Absolute energy threshold (typical values: 0.01-0.1)
+transient: Absolute threshold for energy changes (typical values: 0.005-0.05)
+highfreq: Absolute threshold for high-frequency content (typical values: 0.05-0.2)
+
+These absolute values depend on:
+
+Your microphone sensitivity
+Distance from the glass
+Background noise levels
+Audio preprocessing
+
+Calibration Process
+The calibration process:
+
+Analyzes your glass break examples
+Analyzes your non-glass sounds
+Sets thresholds that differentiate between them
+Validates the thresholds against your samples
+Displays the accuracy of the calibration
+
+Visualization
+When using the --visualize flag, the program will show:# Glass Break Detector - Installation and Usage Guide
+Installation Requirements
+Install the required libraries with pip:
+bashpip install numpy matplotlib scipy librosa
+Basic Usage
+Analyzing a Single Audio File
+bashpython glass_break_detector.py --file path/to/audio.wav --visualize
+Analyzing Multiple Audio Files in a Directory
+bashpython glass_break_detector.py --dir path/to/audio/directory
+Adjusting Detection Thresholds
+bashpython glass_break_detector.py --file path/to/audio.wav --energy 0.4 --transient 0.6 --highfreq 0.5
+Calibrating with Example Files
+bashpython glass_break_detector.py --calibrate --glass-dir path/to/glass/samples --non-glass-dir path/to/non-glass/samples
+How It Works
+The detector analyzes audio files for characteristics typical of glass break sounds:
+
+Energy Spikes: Glass breaks produce sudden, sharp increases in audio energy
+High Frequency Content: Glass breaks contain significant high-frequency components (>4kHz)
+Transients: Glass breaks have sharp, rapid changes in amplitude
+
+Adjusting Thresholds
+If you get false positives or negatives, you can adjust the thresholds:
+
+energy: Controls sensitivity to overall loudness (0-1)
+transient: Controls sensitivity to sudden changes (0-1)
+highfreq: Controls sensitivity to high-frequency content (0-1)
+
+Higher values = stricter detection (fewer false positives, but might miss some glass breaks)
+Lower values = more sensitive detection (might catch more glass breaks, but with more false positives)
+Visualization
+When using the --visualize flag, the program will show:
+
+The audio waveform
+Spectrogram showing frequency content over time
+Energy envelope with the detection threshold
+Feature scores compared to thresholds
+
+Tips for Best Results
+
+Use high-quality audio recordings
+Position microphones in optimal locations
+Use the calibration feature with known examples
+For security systems, combine with other sensors for reliability
+
+Troubleshooting
+
+Error loading audio files: Ensure files are in WAV, MP3, FLAC, or OGG format
+No detection: Try lowering thresholds
+Too many false positives: Try increasing thresholds
+ImportError: Ensure all required libraries are installed

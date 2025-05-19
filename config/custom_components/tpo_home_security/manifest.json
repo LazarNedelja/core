@@ -4,6 +4,9 @@
   "codeowners": ["@LazarNedelja"],
   "config_flow": true,
   "iot_class": "assumed_state",
-  "requirements": ["ultralytics==8.1.44", "opencv-python-headless"],
+  "requirements": ["ultralytics==8.1.44",
+    "opencv-python-headless",
+    "librosa>=0.8.0",
+    "numpy>=1.19.0"],
   "version": "1.0.0"
 }
