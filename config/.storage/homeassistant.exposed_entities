@@ -60,6 +60,20 @@
             "should_expose": true
           }
         }
+      },
+      "home_sec.video_preview": {
+        "assistants": {
+          "conversation": {
+            "should_expose": false
+          }
+        }
+      },
+      "camera.golden_doodle_cam": {
+        "assistants": {
+          "conversation": {
+            "should_expose": false
+          }
+        }
       }
     }
   }

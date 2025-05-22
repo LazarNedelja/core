@@ -3,6 +3,28 @@
   "minor_version": 2,
   "key": "repairs.issue_registry",
   "data": {
-    "issues": []
+    "issues": [
+      {
+        "created": "2025-05-21T21:58:01.672040+00:00",
+        "dismissed_version": null,
+        "domain": "homeassistant",
+        "is_persistent": false,
+        "issue_id": "platform_integration_no_support_camera_local_file"
+      },
+      {
+        "created": "2025-05-21T22:03:31.145298+00:00",
+        "dismissed_version": null,
+        "domain": "homeassistant",
+        "is_persistent": false,
+        "issue_id": "platform_integration_no_support_camera_generic"
+      },
+      {
+        "created": "2025-05-22T21:42:53.229407+00:00",
+        "dismissed_version": null,
+        "domain": "homeassistant",
+        "is_persistent": false,
+        "issue_id": "config_entry_only_generic"
+      }
+    ]
   }
 }

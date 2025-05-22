@@ -75,3 +75,12 @@ notify:
     password: gwvw bxye szpe hnhs
     recipient:
       - ibeleluca@gmail.com
+
+
+views:
+  - title: Security
+    path: security
+    panel: true
+    cards:
+      - type: iframe
+        url: /local/SecurityCam.html

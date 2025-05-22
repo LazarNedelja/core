@@ -39,8 +39,9 @@
             },
             {
               "type": "iframe",
-              "url": "http://localhost:8123/local/tpo_home_security/SecurityCam.mp4",
-              "aspect_ratio": "50%"
+              "url": "/local/GoldenDoodleCam.html",
+              "title": "Security Camera",
+              "aspect_ratio": "75%"
             }
           ]
         }

@@ -25,6 +25,17 @@
         "name": "Tpo_ekipa",
         "system_generated": false,
         "local_only": false
+      },
+      {
+        "id": "0bc9ebc9839c4bffbc8008b2f44300ad",
+        "group_ids": [
+          "system-admin"
+        ],
+        "is_owner": false,
+        "is_active": true,
+        "name": "Home Assistant Cloud",
+        "system_generated": true,
+        "local_only": true
       }
     ],
     "groups": [
@@ -81,9 +92,9 @@
         "access_token_expiration": 1800.0,
         "token": "145bced03097874b11fad81ec42680f0ebcf84e739c81bd46fcad7310337a0182d413017b172df91aaed4a5915857019a4c9f221508e4236ef5ffc38449cbf36",
         "jwt_key": "fc260bce4ee3263402ea4a8576d8b17d5e8fa154981cc6fce082b54851887289decf81e82d5830a28435dcb54136158b871b43113a3684066757697985a00e2f",
-        "last_used_at": "2025-05-19T22:40:28.226992+00:00",
+        "last_used_at": "2025-05-22T22:18:49.832416+00:00",
         "last_used_ip": "172.17.0.1",
-        "expire_at": 1755470428.226992,
+        "expire_at": 1755728329.832416,
         "credential_id": "b5c33416b9d440ce9383d581ded6ccde",
         "version": "2025.5.0.dev0"
       },
@@ -115,9 +126,26 @@
         "access_token_expiration": 1800.0,
         "token": "7403cb940641bc86e314f3231e9adf89903b2d7a93150ad9bf5be5287b97302b90434df99008f96db2a78351101d7d70847bff16d606a4fd7fa1a7585987c0e7",
         "jwt_key": "6a3acd03f8289e75a3873061ff5264c07dd34e58db423f7aba26b65c40a103dc1a9298c7c93338b4b909557b5306668ff7e3735b8a7398e0d69820395fcb9ccd",
-        "last_used_at": "2025-05-14T22:16:51.961133+00:00",
+        "last_used_at": "2025-05-21T21:14:09.753916+00:00",
         "last_used_ip": "172.17.0.1",
-        "expire_at": 1755037011.961133,
+        "expire_at": 1755638049.753916,
+        "credential_id": "b5c33416b9d440ce9383d581ded6ccde",
+        "version": "2025.5.0.dev0"
+      },
+      {
+        "id": "93e3820037ad4147ba1a40da3dc9c43e",
+        "user_id": "c6e6fea483c5480ea611973de933bce0",
+        "client_id": "https://10q88uinbelha2kghc5bd5dvqybqo6ec.ui.nabu.casa/",
+        "client_name": null,
+        "client_icon": null,
+        "token_type": "normal",
+        "created_at": "2025-05-21T20:49:42.780583+00:00",
+        "access_token_expiration": 1800.0,
+        "token": "46a263b2dfd8cc0072a83626bb1ab11377c97228818088d5afa1263215b6b5d74ee4435116df493b417155109ae8f468ce925beddd931a7d582132de1fb8cc16",
+        "jwt_key": "1f0c2a66f31168007d4acd72f45f50cecdb6d1dffc02e251a9c19a80832c7eb09c23d3a25a21931979e869d046af64822871cddbdec609ae82fba80dd463e76f",
+        "last_used_at": "2025-05-21T20:49:42.781207+00:00",
+        "last_used_ip": "127.0.0.1",
+        "expire_at": 1755636582.781207,
         "credential_id": "b5c33416b9d440ce9383d581ded6ccde",
         "version": "2025.5.0.dev0"
       }
