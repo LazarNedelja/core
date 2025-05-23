@@ -40,6 +40,9 @@ SNAPSHOT_FILE = SNAPSHOT_DIR / "last_snapshot.jpg"
 
 VIDEO_FILE = Path(__file__).parent / "SecurityCam.mp4"
 MODEL_FILE = Path(__file__).parent / "yolov8n.pt"
+
+BLINK_ENTITY = "input_boolean.blinking_lights"
+
 PERSON_CLASS = 0
 ANIMAL_CLASS_IDS = [
     14,
@@ -161,6 +164,13 @@ class Alarm(Observer):
             )
             _LOGGER.info("Alarm turned ON")
 
+            self.hass.services.call(
+                "input_boolean",
+                "turn_on",
+                {"entity_id": BLINK_ENTITY},
+            )
+            _LOGGER.info("Blinking lights turned ON")
+
             # Schedule the delayed turn-off back on the main loop thread
             # so async_call_later is invoked from the event loop.
             self.hass.loop.call_soon_threadsafe(
@@ -175,6 +185,14 @@ class Alarm(Observer):
             )
             _LOGGER.info("Alarm turned OFF")
 
+            # Also turn blinking lights OFF
+            self.hass.services.call(
+                "input_boolean",
+                "turn_off",
+                {"entity_id": BLINK_ENTITY},
+            )
+            _LOGGER.info("Blinking lights turned OFF")
+
     def _auto_turn_off(self, now) -> None:
         """Pass callback to async_call_later to switch the alarm off."""
 
@@ -184,6 +202,14 @@ class Alarm(Observer):
             {"entity_id": "input_boolean.alarm_toggle"},
         )
         _LOGGER.info("Alarm automatically turned OFF after timeout")
+
+        # Turn blinking lights OFF
+        self.hass.services.call(
+            "input_boolean",
+            "turn_off",
+            {"entity_id": BLINK_ENTITY},
+        )
+        _LOGGER.info("Blinking lights automatically turned OFF after timeout")
 
 
 class Notifier(Observer):
@@ -217,6 +243,13 @@ class SecurityFacade:
         self.sensor.notify(state)
         return detected
 
+    def process_animal(self, image_path: str) -> list[str]:
+        # detect animals and notify subscribers via Sensor
+        animals = self.yolo.detect_animals(image_path)
+        state = "ANIMAL DETECTED" if animals else "NO ANIMAL"
+        self.sensor.notify(state)
+        return animals
+
 
 # Global facade instance (to be created in register_listeners)
 security_facade: SecurityFacade | None = None
@@ -233,6 +266,20 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
     entity_id = event.data.get("entity_id")
 
     sensor_state = hass.states.get("input_boolean.motion_error")
+
+    if entity_id == "input_boolean.motion_error":
+        # Send the push notification if there is an error on the motion sensor
+        if sensor_state and sensor_state.state == "on":
+            push_notifier.send(
+                title="🏠 Home Security Alert",
+                message="Motion sensor error detected.",
+            )
+            # Send the email
+            email_notifier.send(
+                subject="🏠 Home Security Alert",
+                message="Motion sensor error detected.",
+                targets=recipients,
+            )
 
     if entity_id not in ("input_boolean.sensor_toggle", "input_select.home_mode"):
         return
@@ -303,13 +350,12 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
                 title="🏠 Home Security Alert",
                 message="A person was detected by your camera.",
             )
-        animals = security_facade.yolo.detect_animals(str(SNAPSHOT_FILE))
-        for animal in animals:
-            _LOGGER.info("Detected animal: %s", animal)
-            # Here you can add logic to handle animal detection if needed
+        animals = security_facade.process_animal(str(SNAPSHOT_FILE))
+        if animals:
+            # send the push notification
             push_notifier.send(
-                title="Animal Detected",
-                message=f"Detected animal: {animal}",
+                title="🏠 Home Security Alert",
+                message=f"An animal was detected by your camera: {', '.join(animals)}",
             )
 
 
@@ -470,10 +516,27 @@ def handle_sound_detection(hass: HomeAssistant, event: Event) -> None:
     if sensor_state.state != "on":
         return
 
-    _LOGGER.info("Sound detected event")
+    # Check if the home mode is set to AWAY/VACATION/SLEEPING
+    mode_state = hass.states.get("input_select.home_mode")
+    if mode_state.state == "HOME":
+        return
 
-    audio_file = Path(__file__).parent / "./noglass/door.wav"
+    audio_file = Path(__file__).parent / "./glass/glass_break.wav"
     if detect(audio_file):
+        # Send the push notification
+        push_notifier = hass.data[DOMAIN]["push_notifier"]
+        push_notifier.send(
+            title="🏠 Home Security Alert",
+            message="A glass break was detected.",
+        )
+        # Send the email
+        email_notifier = hass.data[DOMAIN]["email_notifier"]
+        recipients = hass.data[DOMAIN]["email_recipients"]
+        email_notifier.send(
+            subject="🏠 Home Security Alert",
+            message="A glass break was detected.",
+            targets=recipients,
+        )
         _LOGGER.info("Glass break detected!")
     else:
         _LOGGER.info("No glass break detected.")
@@ -483,6 +546,9 @@ def register_listeners(hass: HomeAssistant) -> None:
     global security_facade
     # create and configure the SecurityFacade
     security_facade = SecurityFacade(hass)
+
+    # bind manual alarm_toggle flips into our Observer
+    hass.bus.async_listen("state_changed", lambda e: _alarm_toggle_listener(hass, e))
 
     # register Home Assistant event listener
     hass.bus.async_listen(
@@ -518,3 +584,14 @@ def register_listeners(hass: HomeAssistant) -> None:
     #         "loop": True,
     #     },
     # )
+
+
+# New listener to catch manual toggles of the alarm switch
+@callback
+def _alarm_toggle_listener(hass: HomeAssistant, event: Event) -> None:
+    if event.data.get("entity_id") != "input_boolean.alarm_toggle":
+        return
+    new_state = event.data.get("new_state")
+    notify = "DETECTED" if (new_state and new_state.state == "on") else "CLEAR"
+    if security_facade:
+        security_facade.sensor.notify(notify)
