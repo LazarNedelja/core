@@ -1,1 +1,17 @@
-[]
+- id: '1748027723571'
+  alias: Camera - Send & Save Camera snapshot with custom triggers and with Conditions
+  description: ''
+  use_blueprint:
+    path: TheRealFalseReality/send_snapshot_conditional_triggers.yaml
+    input:
+      camera: camera.192_168_1_218
+      notify_device: 999368b55dfb559caaa9308f981b342c
+      condition_auto:
+      - condition: state
+        entity_id: input_boolean.sensor_toggle
+        state: 'on'
+      condition: []
+      trigger_additional:
+      - trigger: state
+        entity_id:
+        - input_boolean.sensor_toggle

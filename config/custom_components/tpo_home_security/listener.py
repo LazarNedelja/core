@@ -34,6 +34,10 @@ from ultralytics import YOLO  # noqa: E402
 _LOGGER = logging.getLogger(__name__)
 
 # ── Configuration ─────────────────────────────────────────────────────────────
+CAMERA_ENTITY = "camera.192_168_1_218"  # ← change this to your camera entity_id
+SNAPSHOT_DIR = Path(__file__).parent  # config/www
+SNAPSHOT_FILE = SNAPSHOT_DIR / "last_snapshot.jpg"
+
 VIDEO_FILE = Path(__file__).parent / "SecurityCam.mp4"
 MODEL_FILE = Path(__file__).parent / "yolov8n.pt"
 PERSON_CLASS = 0
@@ -229,16 +233,6 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
     entity_id = event.data.get("entity_id")
 
     sensor_state = hass.states.get("input_boolean.motion_error")
-    # if sensor_state:
-    #     email_notifier.send(
-    #         subject="Sensor Failure!",
-    #         message="The motion sensor is not responding / working properly.",
-    #         targets=recipients,
-    #     )
-    #     push_notifier.send(
-    #         title="Sensor Failure!",
-    #         message="The motion sensor is not responding / working properly.",
-    #     )
 
     if entity_id not in ("input_boolean.sensor_toggle", "input_select.home_mode"):
         return
@@ -267,31 +261,36 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
         )
         return
 
-    # hass.states.set(
-    #     VIDEO_ENTITY,
-    #     "playing",
-    #     {
-    #         "friendly_name": "Security Cam Loop",
-    #         # expose the file directly so the Video card can pick it up
-    #         "video_path": str(VIDEO_FILE),
-    #         "content_type": "video/mp4",
-    #         "loop": True,
-    #     },
-    # )
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
 
-    cap = cv2.VideoCapture(str(VIDEO_FILE))
-    success, frame = cap.read()
-    cap.release()
-    if not success:
-        _LOGGER.error("Failed to read frame from %s", VIDEO_FILE)
-        return
+    # Test camera snapshot
+    hass.services.call(
+        "camera",
+        "snapshot",
+        {
+            "entity_id": CAMERA_ENTITY,
+            "filename": str(SNAPSHOT_FILE),
+        },
+    )
+    _LOGGER.info("Saved camera snapshot to %s", SNAPSHOT_FILE)
 
-    tmp = VIDEO_FILE.parent / "_snapshot.jpg"
-    cv2.imwrite(str(tmp), frame)
+    # Test video snapshot
+
+    # Izvlacenje prvog frejma iz videa
+    # cap = cv2.VideoCapture(str(VIDEO_FILE))
+    # success, frame = cap.read()
+    # cap.release()
+    # if not success:
+    #     _LOGGER.error("Failed to read frame from %s", VIDEO_FILE)
+    #     return
+
+    # tmp = VIDEO_FILE.parent / "_snapshot.jpg"
+
+    # cv2.imwrite(str(tmp), frame)
 
     # Delegate detection & notification to the Facade
     if security_facade:
-        detected = security_facade.process_frame(str(tmp))
+        detected = security_facade.process_frame(str(SNAPSHOT_FILE))
         if detected:
             # Send the email
             email_notifier.send(
@@ -304,7 +303,7 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
                 title="🏠 Home Security Alert",
                 message="A person was detected by your camera.",
             )
-        animals = security_facade.yolo.detect_animals(str(tmp))
+        animals = security_facade.yolo.detect_animals(str(SNAPSHOT_FILE))
         for animal in animals:
             _LOGGER.info("Detected animal: %s", animal)
             # Here you can add logic to handle animal detection if needed

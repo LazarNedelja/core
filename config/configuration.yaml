@@ -77,10 +77,7 @@ notify:
       - ibeleluca@gmail.com
 
 
-views:
-  - title: Security
-    path: security
-    panel: true
-    cards:
-      - type: iframe
-        url: /local/SecurityCam.html
+homeassistant:
+  # other settings…
+  allowlist_external_dirs:
+    - "/workspaces/core/config/custom_components/tpo_home_security"
