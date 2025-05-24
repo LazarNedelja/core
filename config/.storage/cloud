@@ -19,7 +19,7 @@
     ],
     "alexa_entity_configs": {},
     "alexa_settings_version": 3,
-    "cloud_user": "0bc9ebc9839c4bffbc8008b2f44300ad",
+    "cloud_user": null,
     "cloudhooks": {
       "f5372233375378d69a877615a55b7b9d5e8673e3613a343816a0157973c0768f": {
         "webhook_id": "f5372233375378d69a877615a55b7b9d5e8673e3613a343816a0157973c0768f",

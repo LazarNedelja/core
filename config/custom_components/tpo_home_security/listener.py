@@ -245,10 +245,7 @@ class SecurityFacade:
 
     def process_animal(self, image_path: str) -> list[str]:
         # detect animals and notify subscribers via Sensor
-        animals = self.yolo.detect_animals(image_path)
-        state = "ANIMAL DETECTED" if animals else "NO ANIMAL"
-        self.sensor.notify(state)
-        return animals
+        return self.yolo.detect_animals(image_path)
 
 
 # Global facade instance (to be created in register_listeners)
@@ -357,6 +354,12 @@ def handle_sensor_toggle_update(hass: HomeAssistant, event: Event) -> None:
                 title="🏠 Home Security Alert",
                 message=f"An animal was detected by your camera: {', '.join(animals)}",
             )
+            # Send elephant in room notification
+            if "elephant" in animals:
+                push_notifier.send(
+                    title="🏠 Home Security Alert",
+                    message="There's an elephant in the room! 🐘",
+                )
 
 
 import asyncio
@@ -538,6 +541,9 @@ def handle_sound_detection(hass: HomeAssistant, event: Event) -> None:
             targets=recipients,
         )
         _LOGGER.info("Glass break detected!")
+        # Turn on the alarm
+        if security_facade:
+            security_facade.sensor.notify("DETECTED")
     else:
         _LOGGER.info("No glass break detected.")
 

@@ -18,15 +18,36 @@
             {
               "type": "entities",
               "entities": [
-                "input_boolean.alarm_toggle",
-                "input_select.home_mode",
-                "input_boolean.sensor_toggle",
-                "input_boolean.camera_toggle",
-                "input_boolean.door_toggle",
-                "input_boolean.motion_error",
-                "input_boolean.sound_toggle"
+                {
+                  "entity": "input_boolean.alarm_toggle"
+                },
+                {
+                  "entity": "input_select.home_mode"
+                },
+                {
+                  "entity": "input_boolean.sensor_toggle"
+                },
+                {
+                  "entity": "input_boolean.camera_toggle"
+                },
+                {
+                  "entity": "input_boolean.blinking_lights"
+                },
+                {
+                  "entity": "input_boolean.door_toggle"
+                },
+                {
+                  "entity": "input_boolean.motion_error"
+                },
+                {
+                  "entity": "input_boolean.sound_toggle"
+                }
               ],
               "title": "Helpers"
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.192_168_1_218"
             },
             {
               "type": "entities",
@@ -36,14 +57,9 @@
                 }
               ],
               "title": "home_sec"
-            },
-            {
-              "type": "iframe",
-              "url": "/local/GoldenDoodleCam.html",
-              "title": "Security Camera",
-              "aspect_ratio": "75%"
             }
-          ]
+          ],
+          "badges": []
         }
       ]
     }

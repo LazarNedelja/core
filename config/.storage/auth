@@ -25,17 +25,6 @@
         "name": "Tpo_ekipa",
         "system_generated": false,
         "local_only": false
-      },
-      {
-        "id": "0bc9ebc9839c4bffbc8008b2f44300ad",
-        "group_ids": [
-          "system-admin"
-        ],
-        "is_owner": false,
-        "is_active": true,
-        "name": "Home Assistant Cloud",
-        "system_generated": true,
-        "local_only": true
       }
     ],
     "groups": [
@@ -92,9 +81,9 @@
         "access_token_expiration": 1800.0,
         "token": "145bced03097874b11fad81ec42680f0ebcf84e739c81bd46fcad7310337a0182d413017b172df91aaed4a5915857019a4c9f221508e4236ef5ffc38449cbf36",
         "jwt_key": "fc260bce4ee3263402ea4a8576d8b17d5e8fa154981cc6fce082b54851887289decf81e82d5830a28435dcb54136158b871b43113a3684066757697985a00e2f",
-        "last_used_at": "2025-05-23T22:45:14.368113+00:00",
+        "last_used_at": "2025-05-24T18:38:18.309928+00:00",
         "last_used_ip": "172.17.0.1",
-        "expire_at": 1755816314.368113,
+        "expire_at": 1755887898.309928,
         "credential_id": "b5c33416b9d440ce9383d581ded6ccde",
         "version": "2025.5.0.dev0"
       },
@@ -126,9 +115,9 @@
         "access_token_expiration": 1800.0,
         "token": "7403cb940641bc86e314f3231e9adf89903b2d7a93150ad9bf5be5287b97302b90434df99008f96db2a78351101d7d70847bff16d606a4fd7fa1a7585987c0e7",
         "jwt_key": "6a3acd03f8289e75a3873061ff5264c07dd34e58db423f7aba26b65c40a103dc1a9298c7c93338b4b909557b5306668ff7e3735b8a7398e0d69820395fcb9ccd",
-        "last_used_at": "2025-05-23T22:04:08.343240+00:00",
+        "last_used_at": "2025-05-24T18:09:22.015228+00:00",
         "last_used_ip": "172.17.0.1",
-        "expire_at": 1755813848.34324,
+        "expire_at": 1755886162.015228,
         "credential_id": "b5c33416b9d440ce9383d581ded6ccde",
         "version": "2025.5.0.dev0"
       },
